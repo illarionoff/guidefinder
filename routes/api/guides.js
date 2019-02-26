@@ -27,7 +27,6 @@ router.post("/register", (req, res) => {
       const newGuide = new Guide({
         name: req.body.name,
         email: req.body.email,
-        location: req.body.location,
         password: req.body.password
       });
 
@@ -45,7 +44,7 @@ router.post("/register", (req, res) => {
   });
 });
 
-// @route  POST api/users/login
+// @route  POST api/guides/login
 // @desc   Login User / Return JWT Token
 // @access Public
 router.post("/login", (req, res) => {
@@ -65,7 +64,7 @@ router.post("/login", (req, res) => {
         // User Matched
         // Create JWT payload
         const payload = {
-          id: guide.id,
+          id: guide._id,
           name: guide.name
         };
         // Sign Token
@@ -86,5 +85,19 @@ router.post("/login", (req, res) => {
     });
   });
 });
+// @route  GET api/guides/current
+// @desc   Return current user
+// @access Private
+router.get(
+  "/current",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.json({
+      id: req.user.id,
+      name: req.user.email,
+      email: req.user.email
+    });
+  }
+);
 
 module.exports = router;
