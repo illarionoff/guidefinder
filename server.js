@@ -4,6 +4,9 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
+// Routes
+const guides = require("./routes/api/guides");
+
 // Body parse middleware
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -18,9 +21,12 @@ mongoose
   .catch(err => console.log(err));
 
 // Routes
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello World");
+// });
+
+// User Routes
+app.use("/api/guides", guides);
 
 const PORT = process.env.PORT || 3000;
 
