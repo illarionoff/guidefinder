@@ -1,9 +1,9 @@
 import axios from "axios";
 import setAuthToken from "./setAuthToken";
 import jwt_decode from "jwt-decode";
-import { SET_CURRENT_USER } from "./types";
+import { SET_CURRENT_USER, DELETE_CURRENT_USER } from "./types";
 
-export const guideLoginAction = userData => dispatch => {
+export const guideLoginAction = (userData, history) => dispatch => {
   axios
     .post("/api/guides/login", userData)
     .then(res => {
@@ -18,6 +18,7 @@ export const guideLoginAction = userData => dispatch => {
       const decoded = jwt_decode(token);
       // // set current user
       dispatch(setCurrentUser(decoded));
+      history.push("/");
     })
     .catch(err => console.log(err));
 };
@@ -28,4 +29,16 @@ export const setCurrentUser = decoded => {
     type: SET_CURRENT_USER,
     payload: decoded
   };
+};
+
+// Log user out
+export const guideLogoutAction = () => dispatch => {
+  // remove token from localStorage
+  localStorage.removeItem("jwtToken");
+  // Remove auth header for future request
+  setAuthToken(false);
+  // Set current user to {} / set isAuthenticated to false
+  dispatch({
+    type: DELETE_CURRENT_USER
+  });
 };

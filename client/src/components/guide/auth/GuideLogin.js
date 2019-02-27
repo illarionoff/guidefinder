@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+// Reirect from actions
+import { withRouter } from "react-router-dom";
 
 // Actions
 import { guideLoginAction } from "../../../actions/guideAuthActions";
@@ -23,7 +25,7 @@ export class GuideLogin extends Component {
     userData.email = this.state.email;
     userData.password = this.state.password;
     console.log(this.props);
-    this.props.guideLoginAction(userData);
+    this.props.guideLoginAction(userData, this.props.history);
   };
 
   render() {
@@ -60,4 +62,4 @@ export class GuideLogin extends Component {
 export default connect(
   null,
   { guideLoginAction }
-)(GuideLogin);
+)(withRouter(GuideLogin));
