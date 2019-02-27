@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { connect } from "react-redux";
 
-export class Register extends Component {
+// Actions
+import { guideLoginAction } from "../../../actions/guideAuthActions";
+
+export class GuideLogin extends Component {
   state = {
     email: "",
-    name: "",
     password: ""
   };
 
@@ -19,32 +21,22 @@ export class Register extends Component {
     e.preventDefault();
     let userData = {};
     userData.email = this.state.email;
-    userData.name = this.state.name;
     userData.password = this.state.password;
-    console.log(userData);
-    axios
-      .post("/api/guides/register", userData)
-      .then(res => this.props.history.push("/login"))
-      .catch(err => console.log(err));
+    console.log(this.props);
+    this.props.guideLoginAction(userData);
   };
+
   render() {
     return (
       <div className="login-page">
         <div className="form">
-          <form className="register-form" onSubmit={this.onClickSubmit}>
-            <input
-              value={this.state.name}
-              onChange={this.onChange}
-              name="name"
-              type="text"
-              placeholder="name"
-            />
+          <form className="login-form" onSubmit={this.onClickSubmit}>
             <input
               value={this.state.email}
               onChange={this.onChange}
               name="email"
               type="email"
-              placeholder="email address"
+              placeholder="username"
             />
             <input
               value={this.state.password}
@@ -53,9 +45,10 @@ export class Register extends Component {
               type="password"
               placeholder="password"
             />
-            <button>create</button>
+            <button>login</button>
             <p className="message">
-              Already registered? <Link to="/login">Sign In</Link>
+              Not registered?{" "}
+              <Link to="/guide/register">Create an account</Link>
             </p>
           </form>
         </div>
@@ -64,4 +57,7 @@ export class Register extends Component {
   }
 }
 
-export default Register;
+export default connect(
+  null,
+  { guideLoginAction }
+)(GuideLogin);

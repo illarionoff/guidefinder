@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-export class Login extends Component {
+export class GuideRegister extends Component {
   state = {
     email: "",
+    name: "",
     password: ""
   };
 
@@ -18,37 +19,32 @@ export class Login extends Component {
     e.preventDefault();
     let userData = {};
     userData.email = this.state.email;
+    userData.name = this.state.name;
     userData.password = this.state.password;
     console.log(userData);
     axios
-      .post("/api/guides/login", userData)
-      .then(res => {
-        console.log(res);
-        // save to local srtorage
-        // const { token } = res.data;
-        // // Set token to localstorage
-        // localStorage.setItem("jwtToken", token);
-        // // Set token to auth header
-        // setAuthToken(token);
-        // // Decode token to get user data
-        // const decoded = jwt_decode(token);
-        // // set current user
-        // dispatch(setCurrentUser(decoded));
-      })
+      .post("/api/guides/register", userData)
+      .then(res => this.props.history.push("/login"))
       .catch(err => console.log(err));
   };
-
   render() {
     return (
       <div className="login-page">
         <div className="form">
-          <form className="login-form" onSubmit={this.onClickSubmit}>
+          <form className="register-form" onSubmit={this.onClickSubmit}>
+            <input
+              value={this.state.name}
+              onChange={this.onChange}
+              name="name"
+              type="text"
+              placeholder="name"
+            />
             <input
               value={this.state.email}
               onChange={this.onChange}
               name="email"
               type="email"
-              placeholder="username"
+              placeholder="email address"
             />
             <input
               value={this.state.password}
@@ -57,9 +53,9 @@ export class Login extends Component {
               type="password"
               placeholder="password"
             />
-            <button>login</button>
+            <button>create</button>
             <p className="message">
-              Not registered? <Link to="/register">Create an account</Link>
+              Already registered? <Link to="guide/login">Sign In</Link>
             </p>
           </form>
         </div>
@@ -68,4 +64,4 @@ export class Login extends Component {
   }
 }
 
-export default Login;
+export default GuideRegister;
