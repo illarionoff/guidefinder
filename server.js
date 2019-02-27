@@ -7,6 +7,7 @@ const app = express();
 
 // Routes
 const guides = require("./routes/api/guides");
+const profiles = require("./routes/api/profiles");
 
 // Body parse middleware
 // parse application/x-www-form-urlencoded
@@ -34,8 +35,9 @@ mongoose
 
 // User Routes
 app.use("/api/guides", guides);
+app.use("/api/profiles", profiles);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
