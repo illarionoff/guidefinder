@@ -1,5 +1,15 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto, sans-serif;
+}
+
 .login-page {
   width: 360px;
   padding: 8% 0 0;
@@ -16,7 +26,6 @@
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 .form input {
-  font-family: "Roboto", sans-serif;
   outline: 0;
   background: #f2f2f2;
   width: 100%;
@@ -107,4 +116,27 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.nav {
+  display: flex;
+  height: 50px;
+  width: 100%;
+  align-items: center;
+  background: white;
+  &__logo {
+    height: 100%;
+    img {
+      height: 100%;
+    }
+  }
+  &__bar {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+    li {
+      margin: 0 15px;
+    }
+  }
 }

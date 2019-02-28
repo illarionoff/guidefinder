@@ -8,6 +8,7 @@ const app = express();
 // Routes
 const guides = require("./routes/api/guides");
 const profiles = require("./routes/api/profiles");
+const tours = require("./routes/api/tours");
 
 // Body parse middleware
 // parse application/x-www-form-urlencoded
@@ -36,6 +37,7 @@ mongoose
 // User Routes
 app.use("/api/guides", guides);
 app.use("/api/profiles", profiles);
+app.use("/api/tours", tours);
 
 const PORT = process.env.PORT || 5000;
 

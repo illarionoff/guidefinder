@@ -24,7 +24,7 @@ export class GuideRegister extends Component {
     console.log(userData);
     axios
       .post("/api/guides/register", userData)
-      .then(res => this.props.history.push("/login"))
+      .then(res => this.props.history.push("/guide/login"))
       .catch(err => console.log(err));
   };
   render() {

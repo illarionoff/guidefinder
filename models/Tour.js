@@ -3,38 +3,30 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Create Schema
-const ProfileSchema = new Schema({
+const TourSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: "users"
-  },
-  handle: {
-    type: String,
-    required: true,
-    max: 40
-  },
-  age: {
+  }, 
+  title: {
     type: String,
     required: true
   },
-  country: {
+  place: {
     type: String,
     required: true
   },
-  city: {
+  duration: {
     type: String,
     required: true
   },
-  bio: {
+  people: {
     type: String,
     required: true
   },
-  social: {
-    facebook: { type: String },
-    twitter: { type: String },
-    instagram: { type: String },
-    linkedin: { type: String },
-    youtube: { type: String }
+  description: {
+    type: String,
+    required: true
   },
   date: {
     type: Date,
@@ -42,4 +34,4 @@ const ProfileSchema = new Schema({
   }
 });
 
-module.exports = Profile = mongoose.model("profile", ProfileSchema);
+module.exports = Tour = mongoose.model("tour", TourSchema);
