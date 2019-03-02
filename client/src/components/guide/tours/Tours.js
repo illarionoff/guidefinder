@@ -10,19 +10,44 @@ export class Tours extends Component {
   render() {
     const { tours, toursLoading } = this.props.guideTours;
 
-    return (
-      <div>
-        {tours.map(tour => (
-          <div>
-            <h2>{tour.title}</h2>
-            <h2>{tour.place}</h2>
-            <h2>{tour.duration}</h2>
-            <h2>{tour.people}</h2>
-            <h2>{tour.description}</h2>
-          </div>
-        ))}
-      </div>
-    );
+    if (tours.length > 0) {
+      return (
+        <div>
+          {tours.map(tour => (
+            <React.Fragment>
+              <div>
+                <h2>{tour.title}</h2>
+                <h2>{tour.place}</h2>
+                <h2>{tour.duration}</h2>
+                <h2>{tour.people}</h2>
+                <h2>{tour.description}</h2>
+                <Link
+                  to={{
+                    pathname: `/guide/edittour/${tour._id}`,
+                    id: tour.id
+                  }}
+                >
+                  Edit
+                </Link>
+              </div>
+              <div>
+                <button>
+                  <Link to="/guide/addtour">Add tour</Link>
+                </button>
+              </div>
+            </React.Fragment>
+          ))}
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <button>
+            <Link to="/guide/addtour">Add tour</Link>
+          </button>
+        </div>
+      );
+    }
   }
 }
 

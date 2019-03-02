@@ -8,6 +8,8 @@ import GuideRegister from "./components/guide/auth/GuideRegister";
 import Myprofile from "./components/guide/profile/Myprofile";
 import CreateProfile from "./components/guide/profile/CreateProfile";
 import EditProfile from "./components/guide/profile/EditProfile";
+import AddTour from "./components/guide/tours/AddTour";
+import EditTour from "./components/guide/tours/EditTour";
 import Index from "./components/Index";
 import Navbar from "./components/guide/Navbar";
 
@@ -31,6 +33,8 @@ class App extends Component {
             <Route path="/guide/myprofile" component={Myprofile} />
             <Route path="/guide/createprofile" component={CreateProfile} />
             <Route path="/guide/editprofile" component={EditProfile} />
+            <Route path="/guide/addtour" component={AddTour} />
+            <Route path="/guide/edittour/:id" component={EditTour} />
           </div>
         </Router>
       </Provider>

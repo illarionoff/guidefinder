@@ -24,3 +24,13 @@ export const setToursLoading = () => {
     type: TOURS_LOADING
   };
 };
+
+export const addTour = (tourData, history) => dispatch => {
+  axios
+    .post("/api/tours", tourData)
+    .then(res => {
+      console.log(res);
+      history.push("/guide/myprofile");
+    })
+    .catch(err => console.log(err));
+};
