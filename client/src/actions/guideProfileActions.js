@@ -1,5 +1,9 @@
 import axios from "axios";
-import { SET_CURRENT_PROFILE, PROFILE_LOADING } from "./types";
+import {
+  SET_CURRENT_PROFILE,
+  PROFILE_LOADING,
+  CLEAR_CURRENT_PROFILE
+} from "./types";
 
 export const getCurrentProfile = () => dispatch => {
   dispatch(setProfileLoading());
@@ -33,4 +37,11 @@ export const addProfile = (userData, history) => dispatch => {
       history.push("/guide/myprofile");
     })
     .catch(err => console.log(err));
+};
+
+// Clear Profile
+export const clearCurrentProfile = () => {
+  return {
+    type: CLEAR_CURRENT_PROFILE
+  };
 };

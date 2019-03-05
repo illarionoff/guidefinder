@@ -50,8 +50,13 @@ export class Navbar extends Component {
               </Link>
             </li>
             <li>
-              <Link to="/guide/login" className="nav__link">
-                Login
+              <Link to="/guide" className="nav__link">
+                Guide
+              </Link>
+            </li>
+            <li>
+              <Link to="/guest" className="nav__link">
+                Guest
               </Link>
             </li>
           </ul>

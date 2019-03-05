@@ -7,6 +7,7 @@ const app = express();
 
 // Routes
 const guides = require("./routes/api/guides");
+const guests = require("./routes/api/guests");
 const profiles = require("./routes/api/profiles");
 const tours = require("./routes/api/tours");
 
@@ -36,6 +37,7 @@ mongoose
 
 // User Routes
 app.use("/api/guides", guides);
+app.use("/api/guests", guests);
 app.use("/api/profiles", profiles);
 app.use("/api/tours", tours);
 

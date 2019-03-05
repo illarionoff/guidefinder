@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { registerGuide } from "../../../actions/guideAuthActions";
+// Reirect from actions
+import { withRouter } from "react-router-dom";
 
-export class GuideRegister extends Component {
+// Actions
+import { loginGuest } from "../../../actions/guestAuthActions";
+
+export class GuideLogin extends Component {
   state = {
     email: "",
-    name: "",
     password: ""
   };
 
@@ -20,28 +23,21 @@ export class GuideRegister extends Component {
     e.preventDefault();
     let userData = {};
     userData.email = this.state.email;
-    userData.name = this.state.name;
     userData.password = this.state.password;
-    this.props.registerGuide(userData, this.props.history);
+    this.props.loginGuest(userData, this.props.history);
   };
+
   render() {
     return (
       <div className="login-page">
         <div className="form">
-          <form className="register-form" onSubmit={this.onClickSubmit}>
-            <input
-              value={this.state.name}
-              onChange={this.onChange}
-              name="name"
-              type="text"
-              placeholder="name"
-            />
+          <form className="login-form" onSubmit={this.onClickSubmit}>
             <input
               value={this.state.email}
               onChange={this.onChange}
               name="email"
               type="email"
-              placeholder="email address"
+              placeholder="username"
             />
             <input
               value={this.state.password}
@@ -50,9 +46,10 @@ export class GuideRegister extends Component {
               type="password"
               placeholder="password"
             />
-            <button>create</button>
+            <button>login</button>
             <p className="message">
-              Already registered? <Link to="guide/login">Sign In</Link>
+              Not registered?{" "}
+              <Link to="/guide/register">Create an account</Link>
             </p>
           </form>
         </div>
@@ -63,5 +60,5 @@ export class GuideRegister extends Component {
 
 export default connect(
   null,
-  { registerGuide }
-)(withRouter(GuideRegister));
+  { loginGuest }
+)(withRouter(GuideLogin));

@@ -15,7 +15,7 @@ export class EditProfile extends Component {
     facebook: this.props.guideProfile.profile.social.facebook,
     twitter: this.props.guideProfile.profile.social.twitter,
     instagram: this.props.guideProfile.profile.social.instagram,
-    linkedin: this.props.guideProfile.profile.social.linkedi,
+    linkedin: this.props.guideProfile.profile.social.linkedin,
     youtube: this.props.guideProfile.profile.social.youtube
   };
 
@@ -42,7 +42,6 @@ export class EditProfile extends Component {
   };
 
   render() {
-    const { profile } = this.props.guideProfile;
     const { isAuthenticated } = this.props.guideAuth;
     if (!isAuthenticated) {
       return <Redirect to="/" />;

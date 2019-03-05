@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { guideLogoutAction } from "../actions/guideAuthActions";
 
-class Index extends Component {
+class GuideIndex extends Component {
   logOut = () => {
     this.props.guideLogoutAction();
   };
@@ -36,4 +36,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { guideLogoutAction }
-)(Index);
+)(GuideIndex);

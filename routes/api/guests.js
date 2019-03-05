@@ -5,38 +5,33 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 
 // Guide model
-const Guide = require("../../models/Guide");
+const Guest = require("../../models/Guest");
 
 // Bring SecretOrKey from config
 const keys = require("../../config/keys");
 
-// @route  GET api/guides/test
-// @desc   Test users route
-// @access Public
-router.get("/test", (req, res) => res.json({ msg: "Guides works" }));
-
-// @route  POST api/guides/register
-// @desc   Register user
+// @route  POST api/guests/register
+// @desc   Register guest
 // @access Public
 router.post("/register", (req, res) => {
-  Guide.findOne({ email: req.body.email }).then(guide => {
-    if (guide) {
+  Guest.findOne({ email: req.body.email }).then(guest => {
+    if (guest) {
       return res.status(400).json({ email: "Email exists" });
     } else {
       //   Create new Guide
-      const newGuide = new Guide({
+      const newGuest = new Guest({
         name: req.body.name,
         email: req.body.email,
         password: req.body.password
       });
 
       bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newGuide.password, salt, (err, hash) => {
+        bcrypt.hash(newGuest.password, salt, (err, hash) => {
           if (err) throw err;
-          newGuide.password = hash;
-          newGuide
+          newGuest.password = hash;
+          newGuest
             .save()
-            .then(guide => res.json(guide))
+            .then(guest => res.json(guest))
             .catch(err => console.log(err));
         });
       });
@@ -44,7 +39,7 @@ router.post("/register", (req, res) => {
   });
 });
 
-// @route  POST api/guides/login
+// @route  POST api/guests/login
 // @desc   Login User / Return JWT Token
 // @access Public
 router.post("/login", (req, res) => {
@@ -52,20 +47,20 @@ router.post("/login", (req, res) => {
   const password = req.body.password;
 
   // Find user by email
-  Guide.findOne({ email }).then(guide => {
+  Guest.findOne({ email }).then(guest => {
     // Check for user
-    if (!guide) {
+    if (!guest) {
       return res.status(404).json("User not found");
     }
 
     // Check Password
-    bcrypt.compare(password, guide.password).then(isMatch => {
+    bcrypt.compare(password, guest.password).then(isMatch => {
       if (isMatch) {
         // User Matched
         // Create JWT payload
         const payload = {
-          id: guide._id,
-          name: guide.name
+          id: guest._id,
+          name: guest.name
         };
         // Sign Token
         jwt.sign(
@@ -85,19 +80,5 @@ router.post("/login", (req, res) => {
     });
   });
 });
-// @route  GET api/guides/current
-// @desc   Return current user
-// @access Private
-router.get(
-  "/current",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    res.json({
-      id: req.user.id,
-      name: req.user.email,
-      email: req.user.email
-    });
-  }
-);
 
 module.exports = router;

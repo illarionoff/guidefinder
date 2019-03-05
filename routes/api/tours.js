@@ -27,6 +27,19 @@ router.get(
   }
 );
 
+// @route GET api/tours/:id
+// @desc GET tour by ID
+// @access Private
+router.get(
+  "/:tour_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Tour.findById(req.params.tour_id)
+      .then(tour => res.json(tour))
+      .catch(err => res.status(404).json({ notoursfound: "no tours found" }));
+  }
+);
+
 // @route  POST api/tours
 // @desc   POST create new tour
 // @access Private

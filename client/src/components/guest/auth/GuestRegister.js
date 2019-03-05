@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { registerGuide } from "../../../actions/guideAuthActions";
+import { registerGuest } from "../../../actions/guestAuthActions";
 
-export class GuideRegister extends Component {
+export class GuestRegister extends Component {
   state = {
     email: "",
     name: "",
@@ -22,7 +22,7 @@ export class GuideRegister extends Component {
     userData.email = this.state.email;
     userData.name = this.state.name;
     userData.password = this.state.password;
-    this.props.registerGuide(userData, this.props.history);
+    this.props.registerGuest(userData, this.props.history);
   };
   render() {
     return (
@@ -63,5 +63,5 @@ export class GuideRegister extends Component {
 
 export default connect(
   null,
-  { registerGuide }
-)(withRouter(GuideRegister));
+  { registerGuest }
+)(withRouter(GuestRegister));

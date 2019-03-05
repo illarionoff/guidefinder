@@ -3,6 +3,13 @@ import setAuthToken from "./setAuthToken";
 import jwt_decode from "jwt-decode";
 import { SET_CURRENT_USER, DELETE_CURRENT_USER } from "./types";
 
+export const registerGuide = (userData, history) => dispatch => {
+  axios
+    .post("/api/guides/register", userData)
+    .then(res => history.push("/guide/login"))
+    .catch(err => console.log(err));
+};
+
 export const guideLoginAction = (userData, history) => dispatch => {
   axios
     .post("/api/guides/login", userData)
@@ -18,7 +25,7 @@ export const guideLoginAction = (userData, history) => dispatch => {
       const decoded = jwt_decode(token);
       // // set current user
       dispatch(setCurrentUser(decoded));
-      history.push("/");
+      history.push("/guide");
     })
     .catch(err => console.log(err));
 };
