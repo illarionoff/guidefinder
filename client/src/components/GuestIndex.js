@@ -1,21 +1,47 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { guestLogoutAction } from "../actions/guestAuthActions";
+import { getAllTours } from "../actions/guestToursActions";
+import Form from "./Form";
+import GuestMain from "./GuestMain";
+import Tour from "./guest/tours/Tour";
 
-class GuideIndex extends Component {
+class GuestIndex extends Component {
+  componentDidMount() {
+    this.props.getAllTours();
+  }
+
+  logOut = () => {
+    this.props.guestLogoutAction();
+  };
   render() {
+    const { guestAuthenticated } = this.props.guestAuth;
+    const { allTours, allToursLoading } = this.props.guestTours;
     return (
       <div className="index">
-        <div className="box">
-          <button>
-            <Link to="/guest/login">Login</Link>
-          </button>
-          <button>
-            <Link to="/guest/register">Register</Link>
-          </button>
-        </div>
+        {!guestAuthenticated ? (
+          <Form login="/guest/login" register="/guest/register" />
+        ) : (
+          <GuestMain logOut={this.logOut} />
+        )}
+        {allToursLoading ? (
+          <h2>Loading</h2>
+        ) : (
+          allTours.map(tour => {
+            return <Tour tour={tour} />;
+          })
+        )}
       </div>
     );
   }
 }
 
-export default GuideIndex;
+const mapStateToProps = state => ({
+  guestAuth: state.guestAuth,
+  guestTours: state.guestTours
+});
+
+export default connect(
+  mapStateToProps,
+  { guestLogoutAction, getAllTours }
+)(GuestIndex);

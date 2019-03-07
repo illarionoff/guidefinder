@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { guideLogoutAction } from "../actions/guideAuthActions";
+import Form from "./Form";
+import GuideMain from "./GuideMain";
 
 class GuideIndex extends Component {
   logOut = () => {
@@ -13,16 +14,9 @@ class GuideIndex extends Component {
     return (
       <div className="index">
         {!isAuthenticated ? (
-          <div className="box">
-            <button>
-              <Link to="/guide/login">Login</Link>
-            </button>
-            <button>
-              <Link to="/guide/register">Register</Link>
-            </button>
-          </div>
+          <Form login="/guide/login" register="/guide/register" />
         ) : (
-          <button onClick={this.logOut}>Logout</button>
+          <GuideMain logOut={this.logOut} />
         )}
       </div>
     );

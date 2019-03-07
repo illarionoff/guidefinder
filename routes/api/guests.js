@@ -6,6 +6,7 @@ const passport = require("passport");
 
 // Guide model
 const Guest = require("../../models/Guest");
+const Tour = require("../../models/Tour");
 
 // Bring SecretOrKey from config
 const keys = require("../../config/keys");
@@ -60,7 +61,8 @@ router.post("/login", (req, res) => {
         // Create JWT payload
         const payload = {
           id: guest._id,
-          name: guest.name
+          name: guest.name,
+          status: "guest"
         };
         // Sign Token
         jwt.sign(
@@ -80,5 +82,19 @@ router.post("/login", (req, res) => {
     });
   });
 });
+
+// @route  GET api/guests/alltours
+// @desc   Get all all tours
+// @access Public
+router.get(
+  "/alltours",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Tour.find()
+      .sort({ date: -1 })
+      .then(tours => res.json(tours))
+      .catch(err => res.status(404).json({ notoursfound: "no tours found" }));
+  }
+);
 
 module.exports = router;

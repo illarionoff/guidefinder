@@ -7,6 +7,7 @@ import GuideLogin from "./components/guide/auth/GuideLogin";
 import GuestLogin from "./components/guest/auth/GuestLogin";
 import GuideRegister from "./components/guide/auth/GuideRegister";
 import GuestRegister from "./components/guest/auth/GuestRegister";
+import GuestTour from "./components/guest/tours/GuestTour";
 import Myprofile from "./components/guide/profile/Myprofile";
 import CreateProfile from "./components/guide/profile/CreateProfile";
 import EditProfile from "./components/guide/profile/EditProfile";
@@ -15,7 +16,7 @@ import EditTour from "./components/guide/tours/EditTour";
 import GuideIndex from "./components/GuideIndex";
 import GuestIndex from "./components/GuestIndex";
 import MainIndex from "./components/MainIndex";
-import Navbar from "./components/guide/Navbar";
+import Navbar from "./components/navigation/Navbar";
 
 // Redux store
 import store from "./store";
@@ -29,6 +30,7 @@ import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 // Setting current user
 import { setCurrentUser, guideLogoutAction } from "./actions/guideAuthActions";
+import { setCurrentGuest, guestLogoutAction } from "./actions/guestAuthActions";
 import { clearCurrentProfile } from "./actions/guideProfileActions";
 
 if (localStorage.jwtToken) {
@@ -37,18 +39,41 @@ if (localStorage.jwtToken) {
   // Decode token and ghet user info and expirtion
   const decoded = jwt_decode(localStorage.jwtToken);
   // Set user and isAuthentricated
-  store.dispatch(setCurrentUser(decoded));
-
-  // Check for expired tocken
-  const currentTime = Date.now() / 1000;
-  if (decoded.exp < currentTime) {
-    // Logout User
-    store.dispatch(guideLogoutAction());
-    // TODO: Clear current profile
-    store.dispatch(clearCurrentProfile());
-    // Redirect to Login
-    window.location.href = "/login";
+  console.log(decoded);
+  if (decoded.status === "guide") {
+    store.dispatch(setCurrentUser(decoded));
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp < currentTime) {
+      // Logout User
+      store.dispatch(guideLogoutAction());
+      // TODO: Clear current profile
+      store.dispatch(clearCurrentProfile());
+      // Redirect to Login
+      window.location.href = "/login";
+    }
+  } else {
+    store.dispatch(setCurrentGuest(decoded));
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp < currentTime) {
+      // Logout User
+      store.dispatch(guestLogoutAction());
+      // // TODO: Clear current profile
+      // store.dispatch(clearCurrentProfile());
+      // Redirect to Login
+      window.location.href = "/login";
+    }
   }
+
+  // // Check for expired tocken
+  // const currentTime = Date.now() / 1000;
+  // if (decoded.exp < currentTime) {
+  //   // Logout User
+  //   store.dispatch(guideLogoutAction());
+  //   // TODO: Clear current profile
+  //   store.dispatch(clearCurrentProfile());
+  //   // Redirect to Login
+  //   window.location.href = "/login";
+  // }
 }
 
 class App extends Component {
@@ -71,6 +96,7 @@ class App extends Component {
             <Route path="/guide/editprofile" component={EditProfile} />
             <Route path="/guide/addtour" component={AddTour} />
             <Route path="/guide/edittour/:id" component={EditTour} />
+            <Route path="/guest/tours/:id" component={GuestTour} />
           </div>
         </Router>
       </Provider>

@@ -1,8 +1,8 @@
-import { SET_CURRENT_GUEST } from "../actions/types";
+import { SET_CURRENT_GUEST, DELETE_CURRENT_GUEST } from "../actions/types";
 
 const initialstate = {
   guestAuthenticated: false,
-  guest: {}
+  user: {}
 };
 
 export default function(state = initialstate, action) {
@@ -11,7 +11,13 @@ export default function(state = initialstate, action) {
       return {
         ...state,
         guestAuthenticated: true,
-        guest: action.payload
+        user: action.payload
+      };
+    case DELETE_CURRENT_GUEST:
+      return {
+        ...state,
+        guestAuthenticated: false,
+        user: {}
       };
 
     default:

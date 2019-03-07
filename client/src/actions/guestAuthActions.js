@@ -1,7 +1,7 @@
 import axios from "axios";
 import setAuthToken from "./setAuthToken";
 import jwt_decode from "jwt-decode";
-import { SET_CURRENT_GUEST } from "./types";
+import { SET_CURRENT_GUEST, DELETE_CURRENT_GUEST } from "./types";
 
 export const registerGuest = (userData, history) => dispatch => {
   axios
@@ -36,4 +36,16 @@ export const setCurrentGuest = decoded => {
     type: SET_CURRENT_GUEST,
     payload: decoded
   };
+};
+
+// Log user out
+export const guestLogoutAction = () => dispatch => {
+  // remove token from localStorage
+  localStorage.removeItem("jwtToken");
+  // Remove auth header for future request
+  setAuthToken(false);
+  // Set current user to {} / set isAuthenticated to false
+  dispatch({
+    type: DELETE_CURRENT_GUEST
+  });
 };
