@@ -2,6 +2,31 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const passport = require("passport");
+const multer = require("multer");
+
+// Multer config
+var storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, "./uploads/");
+  },
+  filename: function(req, file, cb) {
+    cb(null, Date.now() + file.originalname);
+  }
+});
+function fileFilter(req, file, cb) {
+  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+    cb(null, true);
+  } else {
+    cb(new Error("Wrong file type"));
+  }
+}
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 10
+  },
+  fileFilter: fileFilter
+});
 
 // Import model
 const Tour = require("../../models/Tour");
@@ -13,8 +38,8 @@ const Tour = require("../../models/Tour");
 router.get("/test", (req, res) => res.json({ msg: "Tours works" }));
 
 // @route  GET api/tours/mytours
-// @desc   GET get all posts
-// @access Public
+// @desc   GET get all my tours
+// @access Private
 
 router.get(
   "/mytours",
@@ -47,27 +72,28 @@ router.get(
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
+  upload.single("tourImage"),
   (req, res) => {
-    // Check validation
     const newTour = new Tour({
       title: req.body.title,
       place: req.body.place,
       duration: req.body.duration,
       people: req.body.people,
       description: req.body.description,
+      tourImage: req.file.path,
       user: req.user.id
     });
     newTour.save().then(post => res.json(post));
   }
 );
-module.exports = router;
 
-// @route  POST api/tours
-// @desc   POST create & update user profile
+// @route  POST api/tours/:tour_id
+// @desc   POST update tour
 // @access Private
 router.post(
   "/:tour_id",
   passport.authenticate("jwt", { session: false }),
+  upload.single("tourImage"),
   (req, res) => {
     const tourFields = {};
     tourFields.title = req.body.title;
@@ -75,6 +101,9 @@ router.post(
     tourFields.duration = req.body.duration;
     tourFields.people = req.body.people;
     tourFields.description = req.body.description;
+    if (tourFields.tourImage) {
+      tourFields.tourImage = req.file.path;
+    }
 
     Tour.findOneAndUpdate(
       { _id: req.params.tour_id, user: req.user.id },
@@ -102,3 +131,5 @@ router.delete(
       .catch(err => res.json({ error: "error" }));
   }
 );
+
+module.exports = router;

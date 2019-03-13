@@ -94,9 +94,9 @@ class App extends Component {
             <Route path="/guide/myprofile" component={Myprofile} />
             <Route path="/guide/createprofile" component={CreateProfile} />
             <Route path="/guide/editprofile" component={EditProfile} />
-            <Route path="/guide/addtour" component={AddTour} />
+            <Route exact path="/guide/addtour" component={AddTour} />
             <Route path="/guide/edittour/:id" component={EditTour} />
-            <Route path="/guest/tours/:id" component={GuestTour} />
+            <Route path="/guest/alltours/:id" component={GuestTour} />
           </div>
         </Router>
       </Provider>

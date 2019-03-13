@@ -15,7 +15,9 @@ export class EditTour extends Component {
     place: "",
     duration: "",
     people: "",
-    description: ""
+    description: "",
+    selectedFile: null,
+    tourImage: ""
   };
 
   componentDidMount = () => {
@@ -28,7 +30,8 @@ export class EditTour extends Component {
       place: nextProps.guideTours.tour.place,
       duration: nextProps.guideTours.tour.duration,
       people: nextProps.guideTours.tour.people,
-      description: nextProps.guideTours.tour.description
+      description: nextProps.guideTours.tour.description,
+      tourImage: nextProps.guideTours.tour.tourImage
     });
   }
 
@@ -38,16 +41,30 @@ export class EditTour extends Component {
     });
   };
 
+  handleselectedFile = event => {
+    this.setState({
+      selectedFile: event.target.files[0]
+    });
+  };
+
   onClickSubmit = e => {
     e.preventDefault();
+    let tourData = new FormData();
+    tourData.append("title", this.state.title);
+    tourData.append("place", this.state.place);
+    tourData.append("duration", this.state.duration);
+    tourData.append("people", this.state.people);
+    tourData.append("description", this.state.description);
+    if (this.state.selectedFile !== null) {
+      tourData.append(
+        "tourImage",
+        this.state.selectedFile,
+        this.state.selectedFile.name
+      );
+    } else {
+      tourData.append("tourImage", this.state.tourImage);
+    }
 
-    let tourData = {};
-    tourData.title = this.state.title;
-    tourData.place = this.state.place;
-    tourData.duration = this.state.duration;
-    tourData.people = this.state.people;
-    tourData.description = this.state.description;
-    console.log(tourData);
     this.props.editTour(
       this.props.match.params.id,
       tourData,
@@ -108,6 +125,17 @@ export class EditTour extends Component {
                   name="description"
                   type="text"
                   placeholder="Tour description"
+                />
+                <img
+                  src={`/${this.props.guideTours.tour.tourImage}`}
+                  alt=""
+                  style={{ width: "100px" }}
+                />
+                <input
+                  type="file"
+                  name=""
+                  id=""
+                  onChange={this.handleselectedFile}
                 />
                 <button>update tour</button>
               </form>

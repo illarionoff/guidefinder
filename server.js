@@ -5,6 +5,9 @@ const passport = require("passport");
 
 const app = express();
 
+// Static folder
+app.use("/uploads", express.static("uploads"));
+
 // Routes
 const guides = require("./routes/api/guides");
 const guests = require("./routes/api/guests");

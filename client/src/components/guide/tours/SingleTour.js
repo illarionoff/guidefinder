@@ -7,10 +7,14 @@ export default function SingleTour({
   duration,
   people,
   description,
-  tour_id
+  tour_id,
+  tourImage
 }) {
   return (
     <div>
+      {tourImage ? (
+        <img src={`/${tourImage}`} alt="" style={{ width: "100px" }} />
+      ) : null}
       <h2>{title}</h2>
       <h2>{place}</h2>
       <h2>{duration}</h2>

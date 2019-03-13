@@ -21,6 +21,7 @@ export class Tours extends Component {
               people={tour.people}
               description={tour.description}
               tour_id={tour._id}
+              tourImage={tour.tourImage}
             />
           ))}
           <Link to="/guide/addtour">Add </Link>

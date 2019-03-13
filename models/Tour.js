@@ -7,7 +7,7 @@ const TourSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: "users"
-  }, 
+  },
   title: {
     type: String,
     required: true
@@ -25,6 +25,10 @@ const TourSchema = new Schema({
     required: true
   },
   description: {
+    type: String,
+    required: true
+  },
+  tourImage: {
     type: String,
     required: true
   },

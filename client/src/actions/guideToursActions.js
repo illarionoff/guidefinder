@@ -16,6 +16,11 @@ export const getTours = () => dispatch => {
         payload: res.data
       })
     )
+    .then(
+      dispatch({
+        type: CLEAR_CURRENT_TOUR
+      })
+    )
     .catch(err =>
       dispatch({
         type: GET_TOURS,
@@ -62,12 +67,19 @@ export const addTour = (tourData, history) => dispatch => {
 };
 
 export const editTour = (tour_id, tourData, history) => dispatch => {
+  dispatch(setToursLoading());
   axios
     .post(`/api/tours/${tour_id}`, tourData)
+    .then(
+      dispatch({
+        type: CLEAR_CURRENT_TOUR
+      })
+    )
     .then(res => {
       console.log(res);
       history.push("/guide/myprofile");
     })
+
     .catch(err => console.log(err));
 };
 

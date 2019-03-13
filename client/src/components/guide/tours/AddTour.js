@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
+import axios from "axios";
 
 // Actions
 import { addTour } from "../../../actions/guideToursActions";
@@ -11,7 +12,8 @@ export class AddTour extends Component {
     place: "",
     duration: "",
     people: "",
-    description: ""
+    description: "",
+    selectedFile: ""
   };
 
   onChange = e => {
@@ -20,15 +22,26 @@ export class AddTour extends Component {
     });
   };
 
+  handleselectedFile = event => {
+    this.setState({
+      selectedFile: event.target.files[0]
+    });
+  };
+
   onClickSubmit = e => {
     e.preventDefault();
-    let tourData = {};
-    tourData.title = this.state.title;
-    tourData.place = this.state.place;
-    tourData.duration = this.state.duration;
-    tourData.people = this.state.people;
-    tourData.description = this.state.description;
-    console.log(tourData);
+    let tourData = new FormData();
+    tourData.append("title", this.state.title);
+    tourData.append("place", this.state.place);
+    tourData.append("duration", this.state.duration);
+    tourData.append("people", this.state.people);
+    tourData.append("description", this.state.description);
+    tourData.append(
+      "tourImage",
+      this.state.selectedFile,
+      this.state.selectedFile.name
+    );
+
     this.props.addTour(tourData, this.props.history);
   };
 
@@ -75,6 +88,12 @@ export class AddTour extends Component {
                 name="description"
                 type="text"
                 placeholder="Tour description"
+              />
+              <input
+                type="file"
+                name=""
+                id=""
+                onChange={this.handleselectedFile}
               />
               <button>create profile</button>
             </form>

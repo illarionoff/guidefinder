@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getCurrentTour } from "../../../actions/guestToursActions";
+import Tour from "./Tour";
 
 class GuestTour extends Component {
   componentDidMount = () => {
@@ -8,7 +9,12 @@ class GuestTour extends Component {
   };
   render() {
     const { tour, allToursLoading } = this.props.guestTours;
-    return <div>{allToursLoading ? <h2>Loading</h2> : tour.title}</div>;
+    return (
+      <div>
+        <button onClick={() => this.props.history.goBack()}>GO BACK</button>
+        {allToursLoading ? <h2>Loading</h2> : <Tour tour={tour} />}
+      </div>
+    );
   }
 }
 
