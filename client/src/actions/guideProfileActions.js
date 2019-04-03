@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   SET_CURRENT_PROFILE,
   PROFILE_LOADING,
+  GET_ERRORS,
   CLEAR_CURRENT_PROFILE
 } from "./types";
 
@@ -36,7 +37,12 @@ export const addProfile = (userData, history) => dispatch => {
       console.log(res);
       history.push("/guide/myprofile");
     })
-    .catch(err => console.log(err));
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      })
+    );
 };
 
 // Clear Profile

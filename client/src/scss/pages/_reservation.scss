@@ -1,0 +1,39 @@
+.reservations {
+  display: flex;
+  flex-direction: column;
+  .single-reservation {
+    display: flex;
+    background: #fff;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 2px 5px 4px rgba(184, 183, 183, 0.151);
+    margin: 10px;
+    &--image {
+      width: 30%;
+      padding: 10px;
+      background: url(https://source.unsplash.com/random/801x601);
+      background-position: center;
+      background-size: cover;
+    }
+    &--text {
+      padding: 20px;
+      width: 50%;
+    }
+    &--date {
+      width: 20%;
+      border-left: 1px dotted rgba(0, 0, 0, 0.103);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      h1 {
+        width: 100%;
+        text-align: center;
+        font-size: 50px;
+        span {
+          display: block;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}

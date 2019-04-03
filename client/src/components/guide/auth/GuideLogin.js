@@ -10,7 +10,8 @@ import { guideLoginAction } from "../../../actions/guideAuthActions";
 export class GuideLogin extends Component {
   state = {
     email: "",
-    password: ""
+    password: "",
+    errors: {}
   };
 
   onChange = e => {
@@ -28,11 +29,23 @@ export class GuideLogin extends Component {
     this.props.guideLoginAction(userData, this.props.history);
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
+  }
+
   render() {
     return (
       <div className="login-page">
         <div className="form">
+          <h2>Guide Login</h2>
           <form className="login-form" onSubmit={this.onClickSubmit}>
+            {this.state.errors.email ? (
+              <label htmlFor="email">{this.state.errors.email}</label>
+            ) : null}
             <input
               value={this.state.email}
               onChange={this.onChange}
@@ -40,6 +53,9 @@ export class GuideLogin extends Component {
               type="email"
               placeholder="username"
             />
+            {this.state.errors.password ? (
+              <label htmlFor="password">{this.state.errors.password}</label>
+            ) : null}
             <input
               value={this.state.password}
               onChange={this.onChange}
@@ -47,7 +63,7 @@ export class GuideLogin extends Component {
               type="password"
               placeholder="password"
             />
-            <button>login</button>
+            <button className="btn btn--success">login</button>
             <p className="message">
               Not registered?{" "}
               <Link to="/guide/register">Create an account</Link>
@@ -59,7 +75,11 @@ export class GuideLogin extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  errors: state.errors
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { guideLoginAction }
 )(withRouter(GuideLogin));

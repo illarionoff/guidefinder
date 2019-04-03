@@ -3,7 +3,8 @@ import {
   GET_TOURS,
   TOURS_LOADING,
   SET_CURRENT_TOUR,
-  CLEAR_CURRENT_TOUR
+  CLEAR_CURRENT_TOUR,
+  GET_ERRORS
 } from "./types";
 
 export const getTours = () => dispatch => {
@@ -58,12 +59,17 @@ export const addTour = (tourData, history) => dispatch => {
     .post("/api/tours", tourData)
     .then(res => {
       console.log(res);
-      history.push("/guide/myprofile");
+      history.push("/guide/tours");
       dispatch({
         type: CLEAR_CURRENT_TOUR
       });
     })
-    .catch(err => console.log(err));
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
 };
 
 export const editTour = (tour_id, tourData, history) => dispatch => {
@@ -77,7 +83,7 @@ export const editTour = (tour_id, tourData, history) => dispatch => {
     )
     .then(res => {
       console.log(res);
-      history.push("/guide/myprofile");
+      history.push("/guide/tours");
     })
 
     .catch(err => console.log(err));
@@ -88,7 +94,7 @@ export const deleteTour = (tour_id, history) => dispatch => {
     .delete(`/api/tours/${tour_id}`)
     .then(res => {
       console.log(res);
-      history.push("/guide/myprofile");
+      history.push("/guide/tours");
     })
     .catch(err => console.log(err));
 };

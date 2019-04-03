@@ -7,7 +7,9 @@ export class GuestRegister extends Component {
   state = {
     email: "",
     name: "",
-    password: ""
+    password: "",
+    password2: "",
+    errors: {}
   };
 
   onChange = e => {
@@ -22,13 +24,25 @@ export class GuestRegister extends Component {
     userData.email = this.state.email;
     userData.name = this.state.name;
     userData.password = this.state.password;
+    userData.password2 = this.state.password2;
     this.props.registerGuest(userData, this.props.history);
   };
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
+  }
   render() {
     return (
       <div className="login-page">
         <div className="form">
+          <h2>Guest Register</h2>
           <form className="register-form" onSubmit={this.onClickSubmit}>
+            {this.state.errors.name ? (
+              <label htmlFor="name">{this.state.errors.name}</label>
+            ) : null}
             <input
               value={this.state.name}
               onChange={this.onChange}
@@ -36,6 +50,9 @@ export class GuestRegister extends Component {
               type="text"
               placeholder="name"
             />
+            {this.state.errors.email ? (
+              <label htmlFor="email">{this.state.errors.email}</label>
+            ) : null}
             <input
               value={this.state.email}
               onChange={this.onChange}
@@ -43,6 +60,9 @@ export class GuestRegister extends Component {
               type="email"
               placeholder="email address"
             />
+            {this.state.errors.password ? (
+              <label htmlFor="password">{this.state.errors.password}</label>
+            ) : null}
             <input
               value={this.state.password}
               onChange={this.onChange}
@@ -50,9 +70,19 @@ export class GuestRegister extends Component {
               type="password"
               placeholder="password"
             />
-            <button>create</button>
+            {this.state.errors.password2 ? (
+              <label htmlFor="password2">{this.state.errors.password2}</label>
+            ) : null}
+            <input
+              value={this.state.password2}
+              onChange={this.onChange}
+              name="password2"
+              type="password"
+              placeholder="confirm password"
+            />
+            <button className="btn btn--success">create</button>
             <p className="message">
-              Already registered? <Link to="guide/login">Sign In</Link>
+              Already registered? <Link to="/guest/login">Sign In</Link>
             </p>
           </form>
         </div>
@@ -61,7 +91,11 @@ export class GuestRegister extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  errors: state.errors
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { registerGuest }
 )(withRouter(GuestRegister));

@@ -11,10 +11,19 @@ const Tour = require("../../models/Tour");
 // Bring SecretOrKey from config
 const keys = require("../../config/keys");
 
+// Validation
+const validateLoginInput = require("../validation/login");
+const validateRegisterInput = require("../validation/register");
+
 // @route  POST api/guests/register
 // @desc   Register guest
 // @access Public
 router.post("/register", (req, res) => {
+  const { errors, isValid } = validateRegisterInput(req.body);
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   Guest.findOne({ email: req.body.email }).then(guest => {
     if (guest) {
       return res.status(400).json({ email: "Email exists" });
@@ -33,7 +42,7 @@ router.post("/register", (req, res) => {
           newGuest
             .save()
             .then(guest => res.json(guest))
-            .catch(err => console.log(err));
+            .catch(err => console.log({ err }));
         });
       });
     }
@@ -44,6 +53,10 @@ router.post("/register", (req, res) => {
 // @desc   Login User / Return JWT Token
 // @access Public
 router.post("/login", (req, res) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
   const email = req.body.email;
   const password = req.body.password;
 
@@ -51,35 +64,38 @@ router.post("/login", (req, res) => {
   Guest.findOne({ email }).then(guest => {
     // Check for user
     if (!guest) {
-      return res.status(404).json("User not found");
+      return res.status(404).json({ email: "Email doesn't exist" });
     }
 
     // Check Password
-    bcrypt.compare(password, guest.password).then(isMatch => {
-      if (isMatch) {
-        // User Matched
-        // Create JWT payload
-        const payload = {
-          id: guest._id,
-          name: guest.name,
-          status: "guest"
-        };
-        // Sign Token
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          { expiresIn: 3600 },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: "Bearer " + token
-            });
-          }
-        );
-      } else {
-        return res.status(400).json("Password  incorrent");
-      }
-    });
+    bcrypt
+      .compare(password, guest.password)
+      .then(isMatch => {
+        if (isMatch) {
+          // User Matched
+          // Create JWT payload
+          const payload = {
+            id: guest._id,
+            name: guest.name,
+            status: "guest"
+          };
+          // Sign Token
+          jwt.sign(
+            payload,
+            keys.secretOrKey,
+            { expiresIn: 3600 },
+            (err, token) => {
+              res.json({
+                success: true,
+                token: "Bearer " + token
+              });
+            }
+          );
+        } else {
+          return res.status(400).json({ password: "Password is incorrect" });
+        }
+      })
+      .catch();
   });
 });
 

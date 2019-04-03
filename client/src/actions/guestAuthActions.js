@@ -1,13 +1,18 @@
 import axios from "axios";
 import setAuthToken from "./setAuthToken";
 import jwt_decode from "jwt-decode";
-import { SET_CURRENT_GUEST, DELETE_CURRENT_GUEST } from "./types";
+import { SET_CURRENT_GUEST, DELETE_CURRENT_GUEST, GET_ERRORS } from "./types";
 
 export const registerGuest = (userData, history) => dispatch => {
   axios
     .post("/api/guests/register", userData)
     .then(res => history.push("/guest/login"))
-    .catch(err => console.log(err));
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
 };
 
 export const loginGuest = (userData, history) => dispatch => {
@@ -25,9 +30,14 @@ export const loginGuest = (userData, history) => dispatch => {
       const decoded = jwt_decode(token);
       // // set current user
       dispatch(setCurrentGuest(decoded));
-      history.push("/guest");
+      history.push("/guest/alltours");
     })
-    .catch(err => console.log(err));
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
 };
 
 // Set logged in user

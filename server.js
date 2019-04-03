@@ -13,6 +13,7 @@ const guides = require("./routes/api/guides");
 const guests = require("./routes/api/guests");
 const profiles = require("./routes/api/profiles");
 const tours = require("./routes/api/tours");
+const reservations = require("./routes/api/reservations");
 
 // Body parse middleware
 // parse application/x-www-form-urlencoded
@@ -43,6 +44,7 @@ app.use("/api/guides", guides);
 app.use("/api/guests", guests);
 app.use("/api/profiles", profiles);
 app.use("/api/tours", tours);
+app.use("/api/reservations", reservations);
 
 const PORT = process.env.PORT || 5000;
 

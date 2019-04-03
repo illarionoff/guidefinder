@@ -30,7 +30,9 @@ const upload = multer({
 
 // Import model
 const Tour = require("../../models/Tour");
-// const Profile = require("../../models/Profile");
+
+// Validation
+const validateTourInput = require("../validation/tour");
 
 // @route  GET api/guides/test
 // @desc   Test users route
@@ -65,6 +67,20 @@ router.get(
   }
 );
 
+// @route GET api/tours/search/:location
+// @desc GET tour by location
+// @access Private
+router.get(
+  "/search/:place",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Tour.find({ place: { $regex: `${req.params.place}`, $options: "i" } })
+      .collation({ locale: "en", strength: 1 })
+      .then(tour => res.json(tour))
+      .catch(err => res.status(404).json({ notoursfound: "no tours found" }));
+  }
+);
+
 // @route  POST api/tours
 // @desc   POST create new tour
 // @access Private
@@ -74,6 +90,11 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   upload.single("tourImage"),
   (req, res) => {
+    const { errors, isValid } = validateTourInput(req);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
     const newTour = new Tour({
       title: req.body.title,
       place: req.body.place,
@@ -101,8 +122,10 @@ router.post(
     tourFields.duration = req.body.duration;
     tourFields.people = req.body.people;
     tourFields.description = req.body.description;
-    if (tourFields.tourImage) {
+    if (req.file) {
       tourFields.tourImage = req.file.path;
+    } else {
+      tourFields.tourImage = req.body.tourImage;
     }
 
     Tour.findOneAndUpdate(

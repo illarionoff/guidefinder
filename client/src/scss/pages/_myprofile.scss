@@ -1,0 +1,46 @@
+.profile {
+  margin-top: 20px;
+  display: flex;
+  &__header {
+    width: 400px;
+    h1 {
+      font-size: 50px;
+      line-height: 1.5;
+    }
+    p {
+      text-align: justify;
+    }
+
+    .social {
+      display: flex;
+      list-style: none;
+      justify-content: flex-start;
+      a {
+        display: flex;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: gray;
+        justify-content: center;
+        align-items: center;
+        i {
+          color: white;
+        }
+      }
+    }
+  }
+  &__text {
+    min-width: 300px;
+    width: 100%;
+
+    text-align: center;
+    h2 {
+      display: block;
+      width: 100%;
+      span {
+        display: block;
+        font-size: 50px;
+      }
+    }
+  }
+}

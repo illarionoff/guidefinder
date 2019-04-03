@@ -1,13 +1,18 @@
 import axios from "axios";
 import setAuthToken from "./setAuthToken";
 import jwt_decode from "jwt-decode";
-import { SET_CURRENT_USER, DELETE_CURRENT_USER } from "./types";
+import { SET_CURRENT_USER, DELETE_CURRENT_USER, GET_ERRORS } from "./types";
 
 export const registerGuide = (userData, history) => dispatch => {
   axios
     .post("/api/guides/register", userData)
     .then(res => history.push("/guide/login"))
-    .catch(err => console.log(err));
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
 };
 
 export const guideLoginAction = (userData, history) => dispatch => {
@@ -25,9 +30,14 @@ export const guideLoginAction = (userData, history) => dispatch => {
       const decoded = jwt_decode(token);
       // // set current user
       dispatch(setCurrentUser(decoded));
-      history.push("/guide");
+      history.push("/guide/myprofile");
     })
-    .catch(err => console.log(err));
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
 };
 
 // Set logged in user

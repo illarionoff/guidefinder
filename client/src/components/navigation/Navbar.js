@@ -7,7 +7,7 @@ import { guestLogoutAction } from "../../actions/guestAuthActions";
 import GuestNav from "./GuestNav";
 import GuideNav from "./GuideNav";
 
-export class Navbar extends Component {
+class Navbar extends Component {
   logOutGuide = () => {
     this.props.guideLogoutAction();
   };
@@ -25,9 +25,9 @@ export class Navbar extends Component {
       return <GuestNav logOutGuest={this.logOutGuest} />;
     } else {
       return (
-        <nav className="nav">
+        <header className="nav">
           <div className="nav__logo">
-            <img src="https://via.placeholder.com/200x100" alt="Logo" />
+            <img src="img/logo.gif" alt="Logo" />
           </div>
           <ul className="nav__bar">
             <li>
@@ -46,7 +46,7 @@ export class Navbar extends Component {
               </Link>
             </li>
           </ul>
-        </nav>
+        </header>
       );
     }
   }

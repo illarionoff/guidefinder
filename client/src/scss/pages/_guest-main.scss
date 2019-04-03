@@ -1,0 +1,65 @@
+.guest-main {
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  .guest-header {
+    height: 480px;
+    width: 100%;
+    background-image: url(/img/header-guest.jpg);
+    background-color: #fff;
+    box-shadow: 0 0 20px 0 rgba(53, 53, 53, 0.4),
+      0 5px 5px 0 rgba(53, 53, 53, 0.4);
+    &__text {
+      .title-white {
+        color: #fff;
+        font-size: 32px;
+      }
+      width: 50%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  .guest-title {
+    width: 100%;
+    margin: 30px auto;
+    text-align: center;
+    text-transform: capitalize;
+    font-size: 24px;
+  }
+  .guest-popular {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    &__place {
+      width: 220px;
+      height: 300px;
+      background-color: azure;
+    }
+  }
+  .guest-tours {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    &::after {
+      content: "";
+      flex: auto;
+    }
+    .single-tour {
+      width: 300px;
+      height: 300px;
+      img {
+        height: 200px;
+        width: 300px;
+      }
+      p,
+      p {
+        color: black;
+        font-size: 1.2rem;
+        text-transform: capitalize;
+        font-weight: 500;
+      }
+    }
+  }
+}
