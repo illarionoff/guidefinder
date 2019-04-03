@@ -13,7 +13,6 @@ class GuestSearchResults extends Component {
   render() {
     const { searchLoading, searchResults } = this.props.guestSearch;
 
-    let searchContent;
 
     if (searchLoading) {
       return (
@@ -42,13 +41,6 @@ class GuestSearchResults extends Component {
       );
     }
 
-    return (
-      <div className="guest-main">
-        <div className="container">
-          <section className="my-reservations">{searchContent}</section>
-        </div>
-      </div>
-    );
   }
 }
 

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { guestLogoutAction } from "../../../actions/guestAuthActions";
 import { getAllTours } from "../../../actions/guestToursActions";
 import Menu from "../Menu";
 import Loading from "../../Loading";

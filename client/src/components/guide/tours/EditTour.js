@@ -114,7 +114,7 @@ export class EditTour extends Component {
                     style={{
                       backgroundImage: `url(/${
                         this.props.guideTours.tour.tourImage
-                      })`,
+                        })`,
                       backgroundPosition: "center",
                       backgroundSize: "cover"
                     }}
@@ -156,7 +156,7 @@ export class EditTour extends Component {
                     />
                     <input
                       class="form-input"
-                      class="form-input"
+
                       value={this.state.people}
                       onChange={this.onChange}
                       name="people"

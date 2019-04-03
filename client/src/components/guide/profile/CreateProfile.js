@@ -3,8 +3,7 @@ import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
 import {
   CountryDropdown,
-  RegionDropdown,
-  CountryRegionData
+  RegionDropdown
 } from "react-country-region-selector";
 import Menu from "../Menu";
 // Actions

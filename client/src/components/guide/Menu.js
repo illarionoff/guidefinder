@@ -32,7 +32,7 @@ export default function Menu() {
             </Link>
           </li>
           <li>
-            <i class="menu-icon fas fa-sliders-h" />
+            <i className="menu-icon fas fa-sliders-h" />
 
             <Link to="/guide/editprofile" className="nav__link">
               Settings

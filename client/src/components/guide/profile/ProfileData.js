@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 import NoProfile from "./NoProfile";
-import MyProfile from "./MyProfile";
+import MyProfile from './MyProfile'
 import Menu from "../Menu";
 import Loading from "../../Loading";
 
