@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require('path')
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
@@ -8,12 +9,22 @@ const app = express();
 // Static folder
 app.use("/uploads", express.static("uploads"));
 
+
+
 // Routes
 const guides = require("./routes/api/guides");
 const guests = require("./routes/api/guests");
 const profiles = require("./routes/api/profiles");
 const tours = require("./routes/api/tours");
 const reservations = require("./routes/api/reservations");
+
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  })
+}
 
 // Body parse middleware
 // parse application/x-www-form-urlencoded
