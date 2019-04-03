@@ -19,12 +19,7 @@ const tours = require("./routes/api/tours");
 const reservations = require("./routes/api/reservations");
 
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-  })
-}
+
 
 // Body parse middleware
 // parse application/x-www-form-urlencoded
@@ -45,17 +40,19 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
-// Routes
-// app.get("/", (req, res) => {
-//   res.send("Hello World");
-// });
-
 // User Routes
 app.use("/api/guides", guides);
 app.use("/api/guests", guests);
 app.use("/api/profiles", profiles);
 app.use("/api/tours", tours);
 app.use("/api/reservations", reservations);
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  })
+}
 
 const PORT = process.env.PORT || 5000;
 
