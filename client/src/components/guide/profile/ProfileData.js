@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 import NoProfile from "./NoProfile";
-import MyProfile from './MyProfile'
+import ProfileContent from './ProfileContent'
 import Menu from "../Menu";
 import Loading from "../../Loading";
 
@@ -32,7 +32,7 @@ class ProfileData extends Component {
           profileContent = (
             <>
               <Menu />
-              <MyProfile profile={profile} />
+              <ProfileContent profile={profile} />
             </>
           );
         } else {
