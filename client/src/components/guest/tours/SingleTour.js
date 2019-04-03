@@ -63,9 +63,6 @@ class SingleTour extends Component {
         <h2>{title}</h2>
         <h3>{place}</h3>
         <h3>
-          Guide name: <span className="focus">Jose</span>
-        </h3>
-        <h3>
           Duration: <span className="focus">{duration}</span>
         </h3>
         <p>{description}</p>

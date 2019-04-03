@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
-import { getAllTours } from '../../../actions/guestToursActions';
+import { getTours } from '../../../actions/guideToursActions';
 import { getAllReservations } from '../../../actions/guideReservationActions'
 
 import Loading from '../../Loading'
@@ -10,8 +10,8 @@ class ProfileContent extends Component {
 
     componentDidMount() {
 
-        getAllTours();
-        getAllReservations();
+        this.props.getTours();
+        this.props.getAllReservations();
 
     }
 
@@ -105,4 +105,4 @@ const mapStateToProps = state => ({
     guideTours: state.guideTours
 });
 
-export default connect(mapStateToProps, { getAllReservations, getAllTours })(ProfileContent)
+export default connect(mapStateToProps, { getAllReservations, getTours })(ProfileContent)
